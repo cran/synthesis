@@ -5,10 +5,11 @@ knitr::opts_chunk$set(
 )
 
 ## ----setup--------------------------------------------------------------------
+op <- par()
 require(zoo)
 library(synthesis)
 
-## ----mod1, fig.cap=c('Example of Random walk model','Example of Autoregressive models'), fig.height=c(5,7), fig.width=c(5,9), out.width= c('80%','100%')----
+## ----mod1, fig.cap=c('Example of Random walk model','Example of Autoregressive models','Example of Threshold autoregressive models'), fig.height=c(5,7,7), fig.width=c(5,9,9), out.width= c('80%','100%','100%')----
 set.seed(2021)
 sample=500
 
@@ -37,6 +38,13 @@ tar <- data.gen.tar(nobs=1000,ndim=9,phi1=c(0.6,-0.1),
 
 plot.zoo(cbind(tar1,tar2,tar), col=c("black","red","blue"), ylab=c("TAR1","TAR2","TAR"),
               main=NA, xlab=NA, cex.axis=1.5)
+
+## ----mod6, fig.cap=c('Example of Sinusoidal model'), fig.height=c(5), fig.width=c(9), out.width= c('100%')----
+set.seed(2021)
+sample=500
+
+sw <- data.gen.SW(nobs=sample, freq = 25, A = 2, phi = 0.6*pi, mu=0, sd = 0.1)
+plot(sw$t,sw$x, type='o', ylab='Cosines', xlab="t")
 
 ## ----mod2, fig.cap=c('Example of Hysteresis loop', 'Example of Friedman with independent and correlated uniform variates'), fig.height=c(4,7), fig.width=c(4,9), out.width= c('80%','100%')----
 sample=1000
@@ -92,9 +100,42 @@ Blobs=data.gen.blobs(nobs=sample, features=2, centers=5, sd=1, bbox=c(-10,10), d
 Circles=data.gen.circles(n = sample, r_vec=c(1,1.5), start=runif(1,-1,1), s=0.1, do.plot=TRUE)
 Spirals=data.gen.spirals(n = sample, cycles=3, s=0.01, do.plot=TRUE)
 
-## ----ss, fig.cap='Example of Linear Gaussian state-space model', fig.height=7, fig.width=9, out.width= '100%'----
+## ----ss, fig.cap='Example of linear Gaussian state-space model', fig.height=7, fig.width=9, out.width= '100%'----
 ###Linear Gaussian state-space model
 
 data.LGSS <- data.gen.LGSS(theta=c(0.75,1.00,0.10), nobs=500, do.plot = TRUE)
+
+
+## ----affine, fig.cap='Example of the affine error model', fig.height=7, fig.width=9, out.width= '100%'----
+# Affine error model with 1 true observation and 3 dummy variables
+data.affine<-data.gen.affine(500)
+
+plot.ts(cbind(data.affine$x,data.affine$dp), main="Affine error model")
+
+
+## ----brown, fig.cap='Example of Brownian motion models', fig.height=4, fig.width=9, out.width= '100%'----
+# Brownian motion models
+set.seed(100)
+sample <- 500
+
+par(mfrow=c(1,3), ps=10, cex.lab=1.5, pty="s")
+data.bm <- data.gen.bm(do.plot = TRUE)
+data.gbm <- data.gen.gbm(do.plot = TRUE)
+data.fbm <- data.gen.fbm(do.plot = TRUE)
+par(op)
+
+## ----wq, fig.cap='Example of build-up and wash-off models', fig.height=4, fig.width=9, out.width= '100%'----
+# Build up and wash off model
+set.seed(101)
+sample = 500
+
+#create a gamma shape storm event
+q<- seq(0,20, length.out=sample)
+p <- pgamma(q, shape=9, rate =2, lower.tail = T)
+p <- c(p[1],p[2:sample]-p[1:(sample-1)])
+
+data.tss<-data.gen.BUWO(sample, k=0.5, a=5, m0=10, q=p)
+plot.zoo(cbind(p, data.tss$x, data.tss$y), xlab=NA,
+         ylab=c("Q","Bulid-up","Wash-off"), main="TSS")
 
 

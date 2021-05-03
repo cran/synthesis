@@ -1,6 +1,6 @@
 Package: synthesis
 Title: Generate Synthetic Data from Statistical Models
-Version: 1.2.1
+Version: 1.2.2
 Authors@R: 
     person(given = "Ze",
            family = "Jiang",
@@ -20,6 +20,6 @@ Suggests: testthat, devtools, knitr, rmarkdown, zoo
 RoxygenNote: 7.1.1
 VignetteBuilder: knitr
 NeedsCompilation: no
-Packaged: 2021-04-02 08:49:34 UTC; z5154277
+Packaged: 2021-05-03 00:57:07 UTC; z5154277
 Repository: CRAN
-Date/Publication: 2021-04-02 09:10:02 UTC
+Date/Publication: 2021-05-03 06:40:02 UTC
