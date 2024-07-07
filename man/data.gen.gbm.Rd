@@ -26,6 +26,9 @@ data.gen.gbm(
 
 \item{do.plot}{a logical value. If TRUE (default value), a plot of the generated system is shown.}
 }
+\value{
+A ts object.
+}
 \description{
 This function generates a a time series of one dimension geometric Brownian motion.
 }

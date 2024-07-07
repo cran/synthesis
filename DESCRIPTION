@@ -1,6 +1,6 @@
 Package: synthesis
 Title: Generate Synthetic Data from Statistical Models
-Version: 1.2.4
+Version: 1.2.5
 Authors@R: 
     person(given = "Ze",
            family = "Jiang",
@@ -16,10 +16,10 @@ Encoding: UTF-8
 URL: https://github.com/zejiang-unsw/synthesis#readme
 BugReports: https://github.com/zejiang-unsw/synthesis/issues
 Imports: stats, MASS, graphics
-Suggests: qpdf, zoo, knitr, WASP, NPRED, rmarkdown, testthat, devtools
+Suggests: zoo, knitr, rmarkdown, testthat, devtools
 RoxygenNote: 7.2.3
 VignetteBuilder: knitr
 NeedsCompilation: no
-Packaged: 2023-11-01 08:48:13 UTC; z5154277
+Packaged: 2024-06-28 22:28:48 UTC; ze
 Repository: CRAN
-Date/Publication: 2023-11-01 09:10:02 UTC
+Date/Publication: 2024-07-07 15:10:02 UTC

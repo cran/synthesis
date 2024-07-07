@@ -1,12 +1,11 @@
-## ----include = FALSE----------------------------------------------------------
+## ---- include = FALSE---------------------------------------------------------
 knitr::opts_chunk$set(
                       collapse = TRUE,
                       comment = "#>"
 )
 
 ## ----setup--------------------------------------------------------------------
-# Do not load WASP or NPRED directly, but instead call them by WASP:: or NPRED::.
-op <- par()
+op <- par(no.readonly = TRUE)
 require(zoo)
 library(synthesis)
 
@@ -28,11 +27,6 @@ data.ar9 <- data.gen.ar9(nobs=sample)
 plot.zoo(cbind(data.ar1$x,data.ar4$x,data.ar9$x), col=c("black","red","blue"),
          ylab=c("AR1","AR4","AR9"),main=NA, xlab=NA, cex.axis=1.5)
 
-# Applications to test predictor identification
-NPRED::stepwise.PIC(data.ar1$x, data.ar1$dp)
-NPRED::stepwise.PIC(data.ar4$x, data.ar4$dp)
-NPRED::stepwise.PIC(data.ar9$x, data.ar9$dp)
-
 ###Synthetic example - TAR models
 # Two TAR models in Sharma (2000)
 tar1 <- data.gen.tar1(nobs=1000)$x #TAR in Equation (8)
@@ -49,7 +43,7 @@ plot.zoo(cbind(tar1,tar2,tar), col=c("black","red","blue"), ylab=c("TAR1","TAR2"
 set.seed(2021)
 sample=500
 
-sw <- data.gen.SW(nobs=sample, freq=25, A=2, phi=0.6*pi, mu=0, sd=0.1)
+sw <- synthesis::data.gen.SW(nobs=sample, freq=25, A=2, phi=0.6*pi, mu=0, sd=0.1)
 plot(sw$t,sw$x, type='o', ylab='Cosines', xlab="t")
 
 ## ----mod2, fig.cap=c('Example of Hysteresis loop', 'Example of Friedman with independent and correlated uniform variates'), fig.height=c(4,7), fig.width=c(4,9), out.width= c('80%','100%')----
@@ -81,31 +75,13 @@ Duffing.map <- data.gen.Duffing(nobs = sample, do.plot=TRUE)
 
 ## ----mod4, fig.cap='Example of Rossler system: Phase portraits in a 2D projection of its state space', fig.height=5, fig.width=9, out.width= '100%'----
 ###Synthetic example - Rossler
-ts.r <- data.gen.Rossler(a = 0.2, b = 0.2, w = 5.7, start=c(-2, -10, 0.2), 
+ts.r <- synthesis::data.gen.Rossler(a = 0.2, b = 0.2, w = 5.7, start=c(-2, -10, 0.2), 
                          time = seq(0, 50, length.out = 5000), s=0)
 
 par(mfrow=c(1,2), ps=12, cex.lab=1.5)
 plot(ts.r$x,ts.r$y, xlab="x",ylab = "y", type = "l")
 plot(ts.r$x,ts.r$z, xlab="x",ylab = "z", type = "l")
 
-# Application to testing variance transformation method in:
-# Jiang, Z., Sharma, A., & Johnson, F. (2020) <doi:10.1029/2019WR026962>
-data <- list(x = ts.r$z, dp = cbind(ts.r$x, ts.r$y))
-dwt <- WASP::dwt.vt(data, wf="d4", J=7, method="dwt", pad="zero", boundary="periodic")
-
-par(mfrow = c(ncol(dwt$dp), 1), mar = c(0, 2.5, 2, 1),
-    oma = c(2, 1, 0, 0), # move plot to the right and up
-    mgp = c(1.5, 0.5, 0), # move axis labels closer to axis
-    pty = "m", bg = "transparent",
-    ps = 12)
-
-# plot(dwt$x, type="l", xlab=NA, ylab="SPI12", col="red")
-# plot(dwt$x, type="l", xlab=NA, ylab="Rain", col="red")
-for (i in 1:ncol(dwt$dp)) {
-  ts.plot(cbind(dwt$dp[, i], dwt$dp.n[, i]),
-          xlab = NA, ylab = NA,
-          col = c("black", "blue"), lwd = c(1, 2))
-}
 
 ## ----mod5, fig.cap='Example of Lorenz system: Phase portraits in a 2D projection of its state space', fig.height=5, fig.width=9, out.width= '100%'----
 ###Synthetic example - Lorenz

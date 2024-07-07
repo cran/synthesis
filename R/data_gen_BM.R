@@ -7,6 +7,7 @@
 #' @param time the temporal interval at which the system will be generated. Default seq(0,by=0.01,len=101).
 #' @param do.plot a logical value. If TRUE (default value), a plot of the generated system is shown.
 #'
+#' @return A ts object.
 #' @export
 #'
 #' @references Yanping Chen, http://cos.name/wp-content/uploads/2008/12/stochastic-differential-equation-with-r.pdf
@@ -46,6 +47,7 @@ data.gen.bm <- function(x0=0, w0=0, time=seq(0, by=0.01, length.out = 101), do.p
 #' @param time the temporal interval at which the system will be generated. Default seq(0,by=0.01,len=101).
 #' @param do.plot a logical value. If TRUE (default value), a plot of the generated system is shown.
 #'
+#' @return A ts object.
 #' @export
 #'
 #' @references Yanping Chen, http://cos.name/wp-content/uploads/2008/12/stochastic-differential-equation-with-r.pdf
@@ -83,6 +85,7 @@ data.gen.gbm <- function(x0=10, w0=0, mu=1, sigma=0.5, time=seq(0, by=0.01, leng
 #' @param time the temporal interval at which the system will be generated. Default seq(0,by=0.01,len=1000).
 #' @param do.plot a logical value. If TRUE (default value), a plot of the generated system is shown.
 #'
+#' @return A ts object.
 #' @importFrom stats fft
 #' @export
 #'
